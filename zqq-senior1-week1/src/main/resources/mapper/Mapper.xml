@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.zhangqinquan.mapper.HeroMapper">
+      <select id="findAll" resultType="Hero" parameterType="map">
+         select h.*,c.cname from t_heros h join t_camp c on c.id = h.cid
+         <where>
+            <if test="cid != null and cid != ''">
+               h.cid = #{cid} 
+            </if>
+            <if test="status != null and status != ''">
+              and h.status = #{status} 
+            </if>
+            <if test="start != null and start != ''">
+              and h.price >= #{start} 
+            </if>
+            <if test="end != null and end != ''">
+              and h.price &lt;= #{end}
+            </if>
+         </where>
+      </select>
+      <select id="findC" resultType="Camp">
+         select * from t_camp
+      </select>
+      <insert id="add" parameterType="Hero">
+         insert into t_heros() values(0,#{name},#{price},#{cid},#{uptime},#{status})
+      </insert>
+      <select id="findOne" parameterType="int" resultType="Hero">
+         select h.*,c.cname from t_heros h join t_camp c on c.id = h.cid where  h.id = #{id}
+      </select>
+      <update id="buy" parameterType="int">
+         update t_heros set status = 1 where id= #{id}
+      </update>
+    </mapper>
